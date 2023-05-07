@@ -1,5 +1,5 @@
 import Banner from './components/Banner/Banner';
-import Sidebar from './components/Sidebar';
+import Sidebar from './components/Sidebar/Sidebar';
 
 export const metadata = {
   title: 'HRIS',
@@ -8,12 +8,51 @@ export const metadata = {
 
 export default function Home({ }) {
   return (
-    <div className='grid grid-cols-12 sm:grid-cols-4 md:grid-cols-10 lg:grid-cols-12'>
-      <div className=' col-span-3 sm:col-span-1 md:col-span-2   lg:col-span-2 '>
-        <Sidebar />
+    <div className="p-4  rounded-lg dark:border-gray-700">
+      <div className="grid grid-cols-3 gap-4 mb-4">
+        <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        </div>
+        <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        </div>
+        <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        </div>
       </div>
-      <div className=' col-span-9 sm:col-span-3 md:col-span-8 lg:col-span-10 '>
-        "Dashboard to be designed"
+      <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
+        <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        </div>
+        <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        </div>
+        <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        </div>
+        <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        </div>
+      </div>
+      <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
+        <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        </div>
+        <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        </div>
+        <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        </div>
+        <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+          <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+        </div>
       </div>
     </div>
   )
