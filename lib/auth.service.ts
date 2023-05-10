@@ -9,7 +9,6 @@ class AuthService {
 
   public static getAuthToken = () => {
     const token = Cookies.get("token");
-    console.log(token);
     return token;
   };
 

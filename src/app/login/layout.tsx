@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 export default function RootLayout({
   children,
@@ -6,10 +6,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <main className='flex'>
-      <div className='flex-1'>
-        {children}
-      </div>
-    </main>
+    <div className='flex-1'>
+      {children}
+    </div>
   )
 }

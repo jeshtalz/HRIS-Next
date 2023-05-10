@@ -5,6 +5,10 @@ import AuthService from "../../../../../lib/auth.service";
 import HttpService from "../../../../../lib/http.services";
 import { setFormikErrors } from "../../../../../lib/utils.service";
 import { FormElement } from "../../commons/FormElement";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+
 
 // Typescript Interface
 interface IValues {
@@ -31,9 +35,11 @@ const onFormSubmit = async (
       let data = resp.data.data;
       if (typeof data.token != 'undefined') {
         AuthService.saveAuthToken(data.token, data.user.name);
-        // resetForm();
-        // let currentLocation = window.origin;   // get url of current page
-        // window.location.href = currentLocation // reload
+        const { push } = useRouter();
+        push('/');
+        // useEffect(() => {
+        //   console.log('Count is: ');
+        // }, []);
       }
       else {
         let error = { email: ["Username and Password do not match"] };
@@ -47,6 +53,9 @@ const onFormSubmit = async (
     }
   }
 };
+
+
+
 
 // Main function
 export const LoginForm = () => {
@@ -94,10 +103,9 @@ export const LoginForm = () => {
             </FormElement>
             <div className="grid grid-flow-row auto-rows-max mt-5">
               <button className="py-2 px-4 bg-red-500 text-white font-semibold rounded-lg focus:scale-90 shadow-sm mx-auto">
-                Sign Up
+                Log in
               </button>
             </div>
-
           </Form>
         )}
       </Formik>

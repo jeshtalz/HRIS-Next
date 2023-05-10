@@ -11,6 +11,7 @@ import {ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from '@heroicons/react/2
 type Props = {
     isMinimized: boolean,
     setMinimized: any,
+    isAuthenticated: boolean,
 };
 
 export default function Header(parameter: Props) {
@@ -20,11 +21,14 @@ export default function Header(parameter: Props) {
                 fluid={true}
                 rounded={true}
             >
-                <button data-drawer-target="default-sidebar" onClick={() => parameter.setMinimized(!parameter.isMinimized)} type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:mt-2">
-                    <span className="sr-only">Sidebar</span>
-                    {parameter.isMinimized && (<ChevronDoubleLeftIcon className="w-5 h-5" />)}
-                    {!parameter.isMinimized && (<ChevronDoubleRightIcon className="w-5 h-5" />)}
-                </button>
+                {parameter.isAuthenticated &&(
+                    <button data-drawer-target="default-sidebar" onClick={() => parameter.setMinimized(!parameter.isMinimized)} type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:mt-2">
+                        <span className="sr-only">Sidebar</span>
+                        {parameter.isMinimized && (<ChevronDoubleLeftIcon className="w-5 h-5" />)}
+                        {!parameter.isMinimized && (<ChevronDoubleRightIcon className="w-5 h-5" />)}
+                    </button>
+                )}
+                
                 <Navbar.Brand href="https://flowbite.com/">
                     <Image
                         src={logo}

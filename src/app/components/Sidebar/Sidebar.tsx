@@ -8,6 +8,7 @@ import { Sidebar } from "flowbite-react";
 import SidebarDropdown from './SidebarDropdown';
 import SidebarDropdownItem from './SidebarDropdownItem';
 import SideBarItem from './SidebarItem';
+import Cookies from 'js-cookie';
 
 type Props = {
     isMinimized: boolean,
@@ -18,6 +19,7 @@ type Props = {
 
 function index(parameter: Props) {
     const [activeLink, SetActiveLink] = useState('Dashboard');
+    let token = Cookies.get('token');
 
     return (
         <Sidebar id="default-sidebar" className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${parameter.isMinimized ? "translate-x-0" : "-translate-x-full"} mt-16 md:mt-16   sm:translate-x-0 sm:border-spacing-1 rounded-sm sm:border-r-gray-500 shadow-xl`} aria-label="Sidebar">
