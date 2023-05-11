@@ -19,7 +19,7 @@ function SidebarDropdown(parameter: Props) {
 
     return (
         <li className="dropdown">
-            <button className="dropdown-toggle flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" onClick={() => setIsOpen(!isOpen)}>
+            <button className="dropdown-toggle flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 mb-4 " onClick={() => setIsOpen(!isOpen)}>
                 <div className='flex-shrink-0  text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white'>
                     {parameter.icon}
                 </div>

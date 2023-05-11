@@ -1,12 +1,14 @@
 
 "use client";
 import { Field, Form, Formik, FormikHelpers } from "formik";
-import AuthService from "../../../../../lib/auth.service";
-import HttpService from "../../../../../lib/http.services";
-import { setFormikErrors } from "../../../../../lib/utils.service";
-import { FormElement } from "../../commons/FormElement";
+import AuthService from "../../../../lib/auth.service";
+import HttpService from "../../../../lib/http.services";
+import { setFormikErrors } from "../../../../lib/utils.service";
+import { FormElement } from "../commons/FormElement";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setToken, setName, setEmail } from "@/app/redux/reducers/userReducer";
+
 
 
 
@@ -16,54 +18,50 @@ interface IValues {
   password: string;
 }
 
-
-
-// Submit
-const onFormSubmit = async (
-  values: IValues,
-  { setSubmitting, resetForm, setFieldError }: FormikHelpers<IValues>
-) => {
-  const postData = {
-    email: values.email,
-    password: values.password,
-    device_name: "web",
-  };
-
-  try {
-    const resp = await HttpService.post("login", postData);
-    if (resp.status === 200) {
-      let data = resp.data.data;
-      if (typeof data.token != 'undefined') {
-        AuthService.saveAuthToken(data.token, data.user.name);
-        const { push } = useRouter();
-        push('/');
-        // useEffect(() => {
-        //   console.log('Count is: ');
-        // }, []);
-      }
-      else {
-        let error = { email: ["Username and Password do not match"] };
-        setFormikErrors(error, setFieldError);
-      }
-    }
-  }
-  catch (error: any) {
-    if (error.response.status === 422) {
-      setFormikErrors(error.response.data.errors, setFieldError);
-    }
-  }
-};
-
-
-
-
 // Main function
 export const LoginForm = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   const initialValues: IValues = {
     email: "",
     password: "",
   };
 
+  // Submit
+  const onFormSubmit = async (
+    values: IValues,
+    { setSubmitting, resetForm, setFieldError }: FormikHelpers<IValues>
+  ) => {
+    const postData = {
+      email: values.email,
+      password: values.password,
+      device_name: "web",
+    };
+
+    try {
+      const resp = await HttpService.post("login", postData);
+      if (resp.status === 200) {
+        let data = resp.data.data;
+        if (typeof data.token != 'undefined') {
+          router.push("/");
+          AuthService.saveAuthToken(data.token, data.user.name, data.user.email);
+          dispatch(setName(data.user.name));
+          dispatch(setToken(data.token));
+          dispatch(setEmail(data.user.email));
+        }
+        else {
+          let error = { email: ["Username and Password do not match"] };
+          setFormikErrors(error, setFieldError);
+        }
+      }
+    }
+    catch (error: any) {
+      if (error.response.status === 422) {
+        setFormikErrors(error.response.data.errors, setFieldError);
+      }
+    }
+  };
 
   return (
     <>
@@ -102,7 +100,7 @@ export const LoginForm = () => {
               />
             </FormElement>
             <div className="grid grid-flow-row auto-rows-max mt-5">
-              <button className="py-2 px-4 bg-red-500 text-white font-semibold rounded-lg focus:scale-90 shadow-sm mx-auto">
+              <button type="submit" className="py-2 px-4 bg-red-500 text-white font-semibold rounded-lg focus:scale-90 shadow-sm mx-auto" >
                 Log in
               </button>
             </div>

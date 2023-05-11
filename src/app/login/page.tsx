@@ -6,7 +6,7 @@ export const metadata = {
   title: 'Login',
 };
 
-const page = () => {
+export function page() {
   return (
     <main className='h-screen'>
       <section className="h-full bg-gray-50 dark:bg-gray-900">

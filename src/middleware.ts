@@ -16,10 +16,10 @@ export function middleware(request: NextRequest) {
 
 
     // redirect to home page
-    // if (pathname === "/login" && request.cookies.has('token')) {
-    //     url.pathname = '/';
-    //     return NextResponse.redirect(url);
-    // }
+    if (pathname === "/login" && request.cookies.has('token')) {
+        url.pathname = '/';
+        return NextResponse.redirect(url);
+    }
 }
 
 // See "Matching Paths" below to learn more
