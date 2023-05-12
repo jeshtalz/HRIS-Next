@@ -6,7 +6,7 @@ import { Navbar } from 'flowbite-react';
 import { Dropdown } from 'flowbite-react';
 import { Avatar } from 'flowbite-react';
 import Cookies from 'js-cookie';
-import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from '@heroicons/react/24/solid';
+import { Bars3CenterLeftIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { useState } from 'react';
 import { RootState } from '@/app/redux/store';
@@ -57,25 +57,27 @@ export default function Header(parameter: Props) {
                 fluid={true}
                 rounded={true}
             >
-                {parameter.isAuthenticated && (
-                    <button data-drawer-target="default-sidebar" onClick={() => parameter.setMinimized(!parameter.isMinimized)} type="button" className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:mt-2">
-                        <span className="sr-only">Sidebar</span>
-                        {parameter.isMinimized && (<ChevronDoubleLeftIcon className="w-5 h-5" />)}
-                        {!parameter.isMinimized && (<ChevronDoubleRightIcon className="w-5 h-5" />)}
-                    </button>
-                )}
+                <div className={`flex`}>
+                    {parameter.isAuthenticated && (
+                        <button data-drawer-target="default-sidebar" onClick={() => parameter.setMinimized(!parameter.isMinimized)} type="button" className="inline-flex p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 float-left mx-3 ">
+                            <span className="sr-only">Sidebar</span>
+                            {parameter.isMinimized && (<Bars3CenterLeftIcon className="w-5 h-5" />)}
+                            {!parameter.isMinimized && (<XMarkIcon className="w-5 h-5" />)}
+                        </button>
+                    )}
 
-                <Navbar.Brand href="/" >
-                    <Image className="hover:scale-95"
-                        src={logo}
-                        alt="logo"
-                        priority={true}
-                        width="0"
-                        height="0"
-                        sizes="100vw"
-                        style={{ width: '150px', height: 'auto' }}
-                    />
-                </Navbar.Brand>
+                    <Navbar.Brand href="/" >
+                        <Image className="hover:scale-95"
+                            src={logo}
+                            alt="logo"
+                            priority={true}
+                            width="0"
+                            height="0"
+                            sizes="100vw"
+                            style={{ width: '150px', height: 'auto' }}
+                        />
+                    </Navbar.Brand>
+                </div>
 
                 <div className="flex md:order-2">
                     {/* {DropdownHeader} */}
@@ -123,6 +125,7 @@ export default function Header(parameter: Props) {
                     }
                     <Navbar.Toggle className='sm:hidden' />
                 </div>
+
                 <Navbar.Collapse>
                 </Navbar.Collapse>
             </Navbar>

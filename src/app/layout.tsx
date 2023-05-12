@@ -30,7 +30,7 @@ export default function RootLayout({
                 <Sidebar isMinimized={isMinimized} setMinimized={setMinimized} />
               </div>
             )}
-            <div className={`p-4 ${isAuthenticated ? "sm:ml-64" : ""}  mt-16 sm:mt-16`}>
+            <div className={`p-4 ${(isAuthenticated && isMinimized == false) ? "sm:ml-64" : ""} ${(isAuthenticated && isMinimized == true) ? "sm:ml-24" : "sm:ml-64"}   mt-16 sm:mt-16 bg-slate-100`}>
               {children}
             </div>
           </div>

@@ -11,7 +11,7 @@ export const FormFieldError: React.FC<Props> = ({ name, errors, touched }) => {
   return (
     <>
       {errors[name] && touched && (
-        <div className="text-red-500 text-sm">{errors[name]?.toString()}</div>
+        <div className="text-cyan-500 text-sm">{errors[name]?.toString()}</div>
       )}
     </>
   );
