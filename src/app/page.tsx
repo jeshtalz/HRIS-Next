@@ -1,7 +1,14 @@
-"use client";
 export const metadata = {
   title: 'HRIS',
+  icons: {
+    icon: {
+      url: "/benguet.png",
+      type: "image/png",
+    },
+    shortcut: { url: "/benguet.png", type: "image/png" },
+  },
 };
+
 
 export default function Home({ }) {
   return (
