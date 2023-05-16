@@ -65,7 +65,7 @@ function index(parameter: Props) {
                         <SidebarDropdownItem href={"/"} label="Positions" activeLink={activeLink} SetActiveLink={SetActiveLink} />
                         <SidebarDropdownItem href={"/settings/user_management"} label="User Management" activeLink={activeLink} SetActiveLink={SetActiveLink} />
                         <SidebarDropdownItem href={"/"} label="Holidays/Suspension" activeLink={activeLink} SetActiveLink={SetActiveLink} />
-                        <SidebarDropdownItem href={"/"} label="Salary Grade" activeLink={activeLink} SetActiveLink={SetActiveLink} />
+                        <SidebarDropdownItem href={"/settings/salary_grade"} label="Salary Grade" activeLink={activeLink} SetActiveLink={SetActiveLink} />
                     </SidebarDropdown>
 
                 </ul>

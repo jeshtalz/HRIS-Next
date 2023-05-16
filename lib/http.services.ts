@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import AuthService from "./auth.service";
@@ -8,7 +8,7 @@ class HttpService {
     const api = axios.create({
       baseURL: "http://127.0.0.1:8000/api/",
     });
-    
+
     api.interceptors.response.use(
       (response) => response,
       (error) => {

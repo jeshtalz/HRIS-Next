@@ -1,5 +1,3 @@
-
-"use client";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import AuthService from "../../../../lib/auth.service";
 import HttpService from "../../../../lib/http.services";
@@ -8,7 +6,6 @@ import { FormElement } from "../commons/FormElement";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setToken, setName, setEmail } from "@/app/redux/reducers/userReducer";
-
 
 
 

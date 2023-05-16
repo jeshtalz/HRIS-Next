@@ -20,6 +20,8 @@ export function middleware(request: NextRequest) {
         url.pathname = '/';
         return NextResponse.redirect(url);
     }
+
+    console.log(request.cookies);
 }
 
 // See "Matching Paths" below to learn more
