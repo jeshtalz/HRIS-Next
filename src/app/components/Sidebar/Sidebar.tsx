@@ -20,7 +20,7 @@ function index(parameter: Props) {
     let token = Cookies.get('token');
 
     return (
-        <nav id="default-sidebar" className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform mt-16    ${parameter.isMinimized ? "translate-x-0" : "-translate-x-full"}   ${parameter.isMinimized ? 'sm:w-24 text-center ' : 'sm:w-64'}    sm:translate-x-0 sm:border-spacing-1 rounded-sm sm:border-r-gray-500 shadow-xl`} aria-label="Sidebar">
+        <nav id="default-sidebar" className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform mt-16    ${parameter.isMinimized ? "-translate-x-full" : "translate-x-0"}   ${parameter.isMinimized ? 'sm:w-24 text-center ' : 'sm:w-64'}    sm:translate-x-0 sm:border-spacing-1 rounded-sm sm:border-r-gray-500 shadow-xl`} aria-label="Sidebar">
             <div className='overflow-y-visible   rounded bg-white py-4 px-4 dark:bg-gray-800'>
                 <ul className="font-medium ">
 

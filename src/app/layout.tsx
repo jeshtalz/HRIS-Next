@@ -3,8 +3,6 @@ import './globals.css';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import { useState } from 'react';
-import Cookies from 'js-cookie';
-import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { Inter } from 'next/font/google'
@@ -32,8 +30,8 @@ export default function RootLayout({
                 <Sidebar isMinimized={isMinimized} setMinimized={setMinimized} />
               </div>
             )}
-            <div className={`${(isAuthenticated == true && isMinimized == false) ? "sm:ml-64" : ""} ${(isAuthenticated && isMinimized == true) ? "sm:ml-24" : "sm:m-0"} ${(isAuthenticated ? 'p-4' : '')} mt-16 sm:mt-16 bg-slate-100`}>
-              <div className="p-2  rounded-lg dark:border-gray-700">
+            <div className={`${(isAuthenticated == true && isMinimized == false) ? "sm:ml-64" : ""} ${(isAuthenticated && isMinimized == true) ? "sm:ml-24" : "sm:m-0"} ${(isAuthenticated ? 'p-4' : '')} min-h-screen mt-16 sm:mt-16 bg-gray-50`}>
+              <div className="p-2  rounded-lg  min-h-full">
                 <div className="mb-4 p-2 bg-white dark:bg-gray-800 rounded-md">
                   {children}
                 </div>

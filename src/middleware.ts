@@ -21,7 +21,8 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(url);
     }
 
-    console.log(request.cookies);
+    const response = NextResponse.next();
+    return response;
 }
 
 // See "Matching Paths" below to learn more

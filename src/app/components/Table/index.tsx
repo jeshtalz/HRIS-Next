@@ -1,7 +1,23 @@
 import { Button, Pagination, Table, Tabs, TabsRef } from "flowbite-react";
 import { useRef, useState } from "react";
 
-export default function NextTable() {
+
+type Props = {
+    searchKeyword: string,
+    setSearchKeyword: any,
+    orderBy: string,
+    setOrderBy: any,
+    orderAscending: boolean,
+    setOrderAscending: any,
+    pagination: number,
+    setpagination: any,
+    data: any,
+    pages: number,
+    activePage: number,
+    setActivePage: any
+}
+
+function index(parameter: Props) {
     function onPageChange() {
 
     }
@@ -108,3 +124,5 @@ export default function NextTable() {
         </div>
     );
 }
+
+export default index
