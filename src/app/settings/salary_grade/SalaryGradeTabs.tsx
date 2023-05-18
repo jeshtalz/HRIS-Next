@@ -5,6 +5,11 @@ import { useState } from 'react';
 import Table from "../../components/Table";
 import HttpService from '../../../../lib/http.services';
 
+type row = {
+    id: string,
+    attributes: object[]
+}
+
 
 function SalaryGradeTabs() {
     const [activeTab, setActiveTab] = useState<number>(0);
@@ -13,9 +18,13 @@ function SalaryGradeTabs() {
     const [orderBy, setOrderBy] = useState<string>('');
     const [orderAscending, setOrderAscending] = useState<boolean>(false);
     const [pagination, setpagination] = useState<number>(1);
-    const [headers, setHeaders] = useState<string[]>([]);
+    const [headers, setHeaders] = useState<string[]>([
+        "id",
+        "number",
+        "amount"
+    ]);
     const [pages, setPages] = useState<number>(1);
-    const [data, setData] = useState<number>(1);
+    const [data, setData] = useState<row[]>([]);
     const [link, setLink] = useState<string>("/salary_grade/");
 
     useEffect(() => {
@@ -28,7 +37,6 @@ function SalaryGradeTabs() {
                 orderAscending: orderAscending
             };
             const resp = await HttpService.post("search-salary-grade", postData);
-            console.log(resp.data);
             if (resp != null) {
                 setData(resp.data.data);
                 setPages(resp.data.pages);
@@ -36,7 +44,7 @@ function SalaryGradeTabs() {
         }
 
         getData();
-    }, [searchKeyword, orderBy, orderAscending, pagination]);
+    }, [searchKeyword, orderBy, orderAscending, pagination, activePage]);
 
     return (
         <Tabs.Group
@@ -59,6 +67,7 @@ function SalaryGradeTabs() {
                     pages={pages}
                     activePage={activePage}
                     setActivePage={setActivePage}
+                    headers={headers}
                 />
             </Tabs.Item>
         </Tabs.Group>
