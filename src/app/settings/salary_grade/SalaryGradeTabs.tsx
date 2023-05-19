@@ -14,7 +14,7 @@ type row = {
 function SalaryGradeTabs() {
     const [activeTab, setActiveTab] = useState<number>(0);
     const [activePage, setActivePage] = useState<number>(1);
-    const [searchKeyword, setSearchKeyword] = useState<string>('');
+    var [searchKeyword, setSearchKeyword] = useState<string>('');
     const [orderBy, setOrderBy] = useState<string>('');
     const [orderAscending, setOrderAscending] = useState<boolean>(false);
     const [pagination, setpagination] = useState<number>(1);

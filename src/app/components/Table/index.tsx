@@ -1,7 +1,8 @@
-import { Button, Table, Tabs, TabsRef } from "flowbite-react";
+import { Button, Label, Table, Tabs, TabsRef, TextInput } from "flowbite-react";
 import Pagination from "../Pagination";
 import { useRef, useState } from "react";
 import { Bars4Icon, BarsArrowDownIcon, BarsArrowUpIcon } from "@heroicons/react/24/solid";
+import { TableCell } from "@nextui-org/react/types/table/base";
 
 
 type row = {
@@ -30,18 +31,24 @@ type Props = {
 
 
 function index(parameter: Props) {
-    function onPageChange() {
-        var currentPage = 1;
-        let buttons = document.getElementById('pagination')?.getElementsByTagName("button");
-        if (typeof buttons != "undefined") {
-            console.log(buttons);
+    function search() {
+        let search_input = document.getElementById("table_search") as HTMLElement;
+        // const delayDebounceFn = setTimeout(() => {
+        if (search_input != null) {
+            parameter.setSearchKeyword((document.getElementById("table_search") as HTMLInputElement).value);
         }
+        // }, 2000)
     }
 
 
     return (
         <div className="">
-            <Table className="">
+            <div className="flex flex-row justify-end m-3">
+                <div className="">
+                    <input placeholder="Search here" type="text" id="table_search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onKeyUp={() => search()} />
+                </div>
+            </div>
+            <Table className=" shadow-md rounded-md">
                 <Table.Head>
                     {parameter.headers.map((item, index) => {
                         return (
@@ -66,29 +73,40 @@ function index(parameter: Props) {
                     </Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">
-                    {parameter.data.map((item: row, index: number) => {
-                        return (
-                            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={item.id}>
-                                {parameter.headers.map((td, td_index) => {
-                                    return (
-                                        <Table.Cell key={td_index}>
-                                            {td == "id" ? <>{item.id}</> : <>{item.attributes[td]}</>}
-                                        </Table.Cell>
-                                    );
-                                })}
-                                <Table.Cell>
-                                    <a
-                                        href="/tables"
-                                        className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                                    >
-                                        Edit
-                                    </a>
-                                </Table.Cell>
-                            </Table.Row>
-                        );
-                    })}
+                    {parameter.data.length > 0 ?
+
+                        parameter.data.map((item: row, index: number) => {
+                            return (
+                                <Table.Row className="bg-white " key={item.id}>
+                                    {parameter.headers.map((td, td_index) => {
+                                        return (
+                                            <Table.Cell key={td_index}>
+                                                {td == "id" ? <>{item.id}</> : <>{item.attributes[td]}</>}
+                                            </Table.Cell>
+                                        );
+                                    })}
+                                    <Table.Cell>
+                                        <a
+                                            href="/tables"
+                                            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                                        >
+                                            Edit
+                                        </a>
+                                    </Table.Cell>
+                                </Table.Row>
+                            );
+                        })
+                        :
+                        <Table.Row className="bg-white  h-24" >
+                            <Table.Cell className=" justify-center text-center" colSpan={(parameter.headers.length+1)}>
+                                <span className="font-medium">
+                                    No Data Found
+                                </span>
+                            </Table.Cell>
+                        </Table.Row>
+                    }
                 </Table.Body>
-            </Table>
+            </Table >
             <div className="flex items-center justify-center text-center">
                 <Pagination
                     currentPage={parameter.activePage}
@@ -97,7 +115,7 @@ function index(parameter: Props) {
                 />
             </div>
 
-        </div>
+        </div >
     );
 }
 
