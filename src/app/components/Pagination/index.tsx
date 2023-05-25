@@ -1,4 +1,5 @@
 "use client";
+import { current } from '@reduxjs/toolkit';
 import React from 'react';
 import { useEffect } from 'react'
 
@@ -14,25 +15,30 @@ function index(parameter: Props) {
   if (excess > 0) {
     pages += 1;
   }
-  var mod = parameter.currentPage % 5;
-  var endRange;
-  if (parameter.currentPage <= 5) {
-    endRange = pages;
+
+  let startRange = Math.floor(parameter.currentPage / 5) * 5 + 1;
+
+  let range = [];
+  if (parameter.currentPage >= 5) {
+    if (pages - parameter.currentPage <= 2) {
+      startRange = pages-4; 
+    }
+    else {
+      startRange = (parameter.currentPage - 3);
+    }
+    for (let i = startRange; i <= startRange + 6; i++) {
+      if (i <= pages) {
+        range.push(i);
+      }
+    }
   }
   else {
-    endRange = parameter.currentPage + mod;
+    for (let i = startRange; i < startRange + 5; i++) {
+      if (i <= pages) {
+        range.push(i);
+      }
+    }
   }
-
-  endRange = (endRange > pages) ? pages : endRange;
-  let startRange = (endRange - 4) <= 0 ? 1 : endRange - 4;
-  let range = [];
-  for (let i = startRange; i <= endRange; i++) {
-    range.push(i);
-  }
-
-
-
-
 
   function move(isNext: boolean) {
     if (isNext) {

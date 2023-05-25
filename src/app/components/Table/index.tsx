@@ -26,6 +26,7 @@ type Props = {
     activePage: number,
     setActivePage: any,
     headers: string[]
+    getDataById:Function
 }
 
 
@@ -86,19 +87,20 @@ function index(parameter: Props) {
                                         );
                                     })}
                                     <Table.Cell>
-                                        <a
-                                            href="/tables"
-                                            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                                        <button
+                                            className="font-medium text-blue-600 hover:underline dark:text-blue-500" onClick={() => {
+                                                parameter.getDataById(item.id);
+                                            }}
                                         >
                                             Edit
-                                        </a>
+                                        </button>
                                     </Table.Cell>
                                 </Table.Row>
                             );
                         })
                         :
                         <Table.Row className="bg-white  h-24" >
-                            <Table.Cell className=" justify-center text-center" colSpan={(parameter.headers.length+1)}>
+                            <Table.Cell className=" justify-center text-center" colSpan={(parameter.headers.length + 1)}>
                                 <span className="font-medium">
                                     No Data Found
                                 </span>
