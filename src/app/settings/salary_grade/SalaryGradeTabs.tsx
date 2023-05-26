@@ -8,6 +8,9 @@ import Drawer from '../../components/Drawer';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { FormElement } from '@/app/components/commons/FormElement';
 import { setFormikErrors } from '../../../../lib/utils.service';
+import { object, string, number, date, InferType } from 'yup';
+import { IMaskInput } from 'react-imask';
+import CurrencyInput from 'react-currency-input-field';
 
 type row = {
     id: string,
@@ -39,6 +42,8 @@ function SalaryGradeTabs() {
     const [title, setTitle] = useState<string>("Salary Grade");
     const [edit, setEdit] = useState<number>(1);
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
+    const ref = useRef(null);
+    const inputRef = useRef(null);
 
     var initialValues: IValues = {
         number: 0,
@@ -96,6 +101,7 @@ function SalaryGradeTabs() {
             device_name: "web",
         };
 
+
         try {
             const resp = await HttpService.post("salary-grade", postData);
             if (resp.status === 200) {
@@ -125,7 +131,8 @@ function SalaryGradeTabs() {
         >
             <Tabs.Item title="Salary Grade">
                 <Drawer setShowDrawer={setShowDrawer} showDrawer={showDrawer} setEdit={setEdit} title={`${(typeof edit != "undefined") ? "Edit" : "Add"} ${title}`}>
-                    <Formik initialValues={initialValues} onSubmit={onFormSubmit} enableReinitialize={true}>
+                    <Formik initialValues={initialValues} onSubmit={onFormSubmit} enableReinitialize={true}
+                    >
                         {({ errors, touched }) => (
                             <Form className='p-2' id="formik">
                                 <FormElement
@@ -148,13 +155,37 @@ function SalaryGradeTabs() {
                                     errors={errors}
                                     touched={touched}
                                 >
+                                    {/* <Field
+                                        id="amount"
+                                        name="amount"
+                                        placeholder="Enter Amount"
+                                        className="w-full p-4 pr-12 text-sm border border-gray-100 rounded-lg shadow-sm focus:border-sky-500"
+                                    /> */}
                                     <Field
                                         id="amount"
                                         name="amount"
                                         placeholder="Enter Amount"
                                         className="w-full p-4 pr-12 text-sm border border-gray-100 rounded-lg shadow-sm focus:border-sky-500"
+                                        defaultValue={0}
+                                        decimalsLimit={2}
+                                    // onValueChange={(value, name) => console.log(value, name)}
                                     />
                                 </FormElement>
+                                {/* <FormElement
+                                    name="amt"
+                                    label="Salary Amount"
+                                    errors={errors}
+                                    touched={touched}
+                                >
+                                    <CurrencyInput
+                                        id="input-example"
+                                        name="input-name"
+                                        placeholder="Please enter a number"
+                                        defaultValue={1000}
+                                        decimalsLimit={2}
+                                        onValueChange={(value, name) => console.log(value, name)}
+                                    />;
+                                </FormElement> */}
 
                                 <div className="grid grid-flow-row auto-rows-max mt-5">
                                     <button type="submit" className="py-2 px-4 bg-cyan-500 text-white font-semibold rounded-lg focus:scale-90 shadow-sm mx-auto" >

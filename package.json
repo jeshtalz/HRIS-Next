@@ -26,9 +26,12 @@
     "js-cookie": "^3.0.1",
     "next": "^13.4.2",
     "react": "^18.2.0",
+    "react-currency-input-field": "^3.6.10",
     "react-dom": "^18.2.0",
+    "react-imask": "^6.6.1",
     "react-redux": "^8.0.5",
-    "typescript": "5.0.3"
+    "typescript": "5.0.3",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",
