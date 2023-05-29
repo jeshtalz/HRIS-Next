@@ -36,6 +36,10 @@ class HttpService {
     const api = this.api();
     return await api.get(url);
   };
+  public static patch = async (url: string, data: any) => {
+    const api = this.api();
+    return await api.patch(url, data);
+  };
   public static post = async (url: string, data: any) => {
     const api = this.api();
     return await api.post(url, data);

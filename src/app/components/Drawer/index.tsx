@@ -17,8 +17,8 @@ function index(parameter: Props) {
     return (
         <>
             <Button className='btn btn-sm text-white rounded-lg bg-cyan-500  hover:scale-90 shadow-sm text' onClick={() => {
-                parameter.setShowDrawer(!parameter.showDrawer);
-                parameter.setEdit(undefined);
+                parameter.setShowDrawer(true);
+                parameter.setEdit(0);
             }}>Add Item
             </Button>
             <div id="drawer-right-example" className={`fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform bg-white min-w-84 dark:bg-gray-800 ${parameter.showDrawer ? 'w-96' : 'translate-x-full'} shadow-md`}>
