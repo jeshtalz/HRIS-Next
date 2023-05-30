@@ -14,19 +14,20 @@ type row = {
 
 type Props = {
     searchKeyword: string,
-    setSearchKeyword: any,
+    setSearchKeyword: Function,
     orderBy: string,
-    setOrderBy: any,
+    setOrderBy: Function,
     orderAscending: boolean,
-    setOrderAscending: any,
+    setOrderAscending: Function,
     pagination: number,
-    setpagination: any,
+    setpagination: Function,
     data: row[],
     pages: number,
     activePage: number,
-    setActivePage: any,
+    setActivePage: Function,
     headers: string[]
     getDataById: Function
+    setProcess: Function,
 }
 
 
@@ -87,13 +88,22 @@ function index(parameter: Props) {
                                             </Table.Cell>
                                         );
                                     })}
-                                    <Table.Cell>
+                                    <Table.Cell className="">
                                         <button
-                                            className="font-medium text-blue-600 hover:underline dark:text-blue-500" onClick={() => {
+                                            className="font-medium text-blue-600 hover:underline dark:text-blue-500 m-1" onClick={() => {
                                                 parameter.getDataById(item.id);
+                                                parameter.setProcess("Edit");
                                             }}
                                         >
                                             Edit
+                                        </button>
+                                        <button
+                                            className="font-medium text-red-600 hover:underline m-1" onClick={() => {
+                                                parameter.getDataById(item.id);
+                                                parameter.setProcess("Delete");
+                                            }}
+                                        >
+                                            Delete
                                         </button>
                                     </Table.Cell>
                                 </Table.Row>

@@ -44,6 +44,7 @@ function SalaryGradeTabs() {
     const [refresh, setRefresh] = useState<boolean>(false);
     const [orderAscending, setOrderAscending] = useState<boolean>(false);
     const [pagination, setpagination] = useState<number>(1);
+    const [process, setProcess] = useState<string>("Add");
     const [headers, setHeaders] = useState<string[]>([
         "id",
         "number",
@@ -52,9 +53,8 @@ function SalaryGradeTabs() {
     const [pages, setPages] = useState<number>(1);
     const [data, setData] = useState<row[]>([]);
     const [title, setTitle] = useState<string>("Salary Grade");
-    const [edit, setEdit] = useState<number>(0);
+    const [id, setId] = useState<number>(0);
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
-
     var [initialValues, setInitialValues] = useState<IValues>(
         {
             number: 0,
@@ -85,14 +85,23 @@ function SalaryGradeTabs() {
     }, [refresh, searchKeyword, orderBy, orderAscending, pagination, activePage]);
 
     useEffect(() => {
-        if (edit == 0) {
+        if (id == 0) {
             setInitialValues({
                 number: 0,
                 amount: 0
             });
         }
-        setAlerts([]);
-    }, [edit]);
+
+    }, [id]);
+
+    useEffect(() => {
+        if (process === "Delete") {
+            alerts.push({ "type": "failure", "message": "Are you sure to delete this data?" });
+        }
+        else {
+            setAlerts([]);
+        }
+    }, [process]);
 
 
 
@@ -102,7 +111,7 @@ function SalaryGradeTabs() {
         try {
             const resp = await HttpService.get("salary-grade/" + id);
             if (resp.status === 200) {
-                setEdit(id);
+                setId(id);
                 setInitialValues({
                     number: resp.data.number,
                     amount: resp.data.amount
@@ -142,7 +151,7 @@ function SalaryGradeTabs() {
 
         try {
             // add
-            if (edit == 0) {
+            if (process == "Add") {
 
                 const resp = await HttpService.post("salary-grade", postData);
                 if (resp.status === 200) {
@@ -159,16 +168,34 @@ function SalaryGradeTabs() {
                     }
                 }
             }
-
             // update
-            else {
-                const resp = await HttpService.patch("salary-grade/" + edit, postData)
+            else if (process == "Edit") {
+                const resp = await HttpService.patch("salary-grade/" + id, postData)
                 if (resp.status === 200) {
                     let status = resp.data.status;
                     if (resp.data.data != "" && typeof resp.data.data != "undefined") {
                         alerts.push({ "type": "success", "message": "Data has been successfully saved!" });
                         setActivePage(1);
                         setRefresh(!refresh);
+                    }
+                    else {
+                        if (typeof resp.data != "undefined") {
+                            alerts.push({ "type": "failure", "message": "An error occured! - " + resp.data.message });
+                        }
+                    }
+                }
+            }
+            // delete
+            else {
+                const resp = await HttpService.delete("salary-grade/" + id);
+                if (resp.status === 200) {
+                    let status = resp.data.status;
+                    if (status === "Request was Successful") {
+                        alerts.push({ "type": "success", "message": resp.data.messsage });
+                        setActivePage(1);
+                        setRefresh(!refresh);
+                        setId(0);
+                        setProcess("Add");
                     }
                     else {
                         if (typeof resp.data != "undefined") {
@@ -200,7 +227,7 @@ function SalaryGradeTabs() {
 
 
                 {/* drawer */}
-                <Drawer setShowDrawer={setShowDrawer} showDrawer={showDrawer} setEdit={setEdit} title={`${(edit != 0) ? "Edit" : "Add"} ${title}`}>
+                <Drawer setShowDrawer={setShowDrawer} setProcess={setProcess} showDrawer={showDrawer} setId={setId} title={`${process} ${title}`}>
 
                     {/* formik */}
                     <Formik initialValues={initialValues} onSubmit={onFormSubmit} enableReinitialize={true}
@@ -231,6 +258,7 @@ function SalaryGradeTabs() {
                                         name="number"
                                         placeholder="Enter Number"
                                         className="w-full p-4 pr-12 text-sm border border-gray-100 rounded-lg shadow-sm focus:border-sky-500"
+                                        onClick={() => { setAlerts([]); }}
                                     />
                                 </FormElement>
 
@@ -256,8 +284,8 @@ function SalaryGradeTabs() {
                                 {/* submit button */}
 
                                 <div className="grid grid-flow-row auto-rows-max mt-5">
-                                    <button type="submit" className="py-2 px-4 bg-cyan-500 text-white font-semibold rounded-lg focus:scale-90 shadow-sm mx-auto" >
-                                        Submit
+                                    <button type="submit" className={`py-2 px-4   ${(process == "Delete" ? "bg-red-500" : "bg-cyan-500")}  text-white font-semibold rounded-lg focus:scale-90 shadow-sm mx-auto`} >
+                                        {(process == "Delete" ? "Delete" : "Submit")}
                                     </button>
                                 </div>
                             </Form>
@@ -281,6 +309,7 @@ function SalaryGradeTabs() {
                     setActivePage={setActivePage}
                     headers={headers}
                     getDataById={getDataById}
+                    setProcess={setProcess}
                 />
             </Tabs.Item>
         </Tabs.Group >

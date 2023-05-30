@@ -5,9 +5,10 @@ import { ReactNode, useState } from "react"
 type Props = {
     title: string,
     children: ReactNode,
-    setEdit: any
+    setId: any
     showDrawer: boolean,
     setShowDrawer: any
+    setProcess: Function
 }
 
 
@@ -18,9 +19,11 @@ function index(parameter: Props) {
         <>
             <Button className='btn btn-sm text-white rounded-lg bg-cyan-500  hover:scale-90 shadow-sm text' onClick={() => {
                 parameter.setShowDrawer(true);
-                parameter.setEdit(0);
-            }}>Add Item
+                parameter.setId(0);
+                parameter.setProcess("Add");
+            }} onDoubleClick={() => { parameter.setShowDrawer(false); }}>Add Item
             </Button>
+
             <div id="drawer-right-example" className={`fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform bg-white min-w-84 dark:bg-gray-800 ${parameter.showDrawer ? 'w-96' : 'translate-x-full'} shadow-md`}>
                 <div className="flex my-4">
                     <h5 className=" font-medium my-auto text-lg">{parameter.title}</h5>
