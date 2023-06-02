@@ -1,5 +1,5 @@
 "use client";
-import { Tabs } from 'flowbite-react';
+import { Button, Tabs } from 'flowbite-react';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Table from "../../components/Table";
@@ -25,8 +25,8 @@ type alert = {
 // interfaces
 
 interface IValues {
-    number?: number;
-    amount?: number;
+    office_code?: string;
+    office_name?: string;
 }
 
 
@@ -47,18 +47,18 @@ function SalaryGradeTabs() {
     const [process, setProcess] = useState<string>("Add");
     const [headers, setHeaders] = useState<string[]>([
         "id",
-        "number",
-        "amount"
+        "office_code",
+        "office_name"
     ]);
     const [pages, setPages] = useState<number>(1);
     const [data, setData] = useState<row[]>([]);
-    const [title, setTitle] = useState<string>("Salary Grade");
+    const [title, setTitle] = useState<string>("Office");
     const [id, setId] = useState<number>(0);
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     var [initialValues, setInitialValues] = useState<IValues>(
         {
-            number: 0,
-            amount: 0
+            office_code: "",
+            office_name: ""
         }
     );
 
@@ -73,7 +73,7 @@ function SalaryGradeTabs() {
                 orderBy: orderBy,
                 orderAscending: orderAscending
             };
-            const resp = await HttpService.post("search-salary-grade", postData);
+            const resp = await HttpService.post("search-office", postData);
             if (resp != null) {
                 setData(resp.data.data);
                 setPages(resp.data.pages);
@@ -87,8 +87,8 @@ function SalaryGradeTabs() {
     useEffect(() => {
         if (id == 0) {
             setInitialValues({
-                number: 0,
-                amount: 0
+                office_code: '',
+                office_name: ''
             });
         }
 
@@ -96,7 +96,7 @@ function SalaryGradeTabs() {
 
     useEffect(() => {
         if (process === "Delete") {
-            alerts.push({ "type": "failure", "message": "Are you sure to delete this data?" });
+            setAlerts([{ "type": "failure", "message": "Are you sure to delete this data?" }])
         }
         else {
             setAlerts([]);
@@ -109,12 +109,12 @@ function SalaryGradeTabs() {
     const getDataById = async (id: number) => {
 
         try {
-            const resp = await HttpService.get("salary-grade/" + id);
+            const resp = await HttpService.get("office/" + id);
             if (resp.status === 200) {
                 setId(id);
                 setInitialValues({
-                    number: resp.data.number,
-                    amount: resp.data.amount
+                    office_code: resp.data.office_code,
+                    office_name: resp.data.office_name
                 })
                 setShowDrawer(true);
 
@@ -140,8 +140,8 @@ function SalaryGradeTabs() {
         { setSubmitting, resetForm, setFieldError }: FormikHelpers<IValues>
     ) => {
         const postData = {
-            number: values.number,
-            amount: values.amount,
+            office_name: values.office_code,
+            office_code: values.office_name,
             device_name: "web",
         };
 
@@ -153,7 +153,7 @@ function SalaryGradeTabs() {
             // add
             if (process == "Add") {
 
-                const resp = await HttpService.post("salary-grade", postData);
+                const resp = await HttpService.post("office", postData);
                 if (resp.status === 200) {
                     let status = resp.data.status;
                     if (status === "Request was Successful") {
@@ -170,7 +170,7 @@ function SalaryGradeTabs() {
             }
             // update
             else if (process == "Edit") {
-                const resp = await HttpService.patch("salary-grade/" + id, postData)
+                const resp = await HttpService.patch("office/" + id, postData)
                 if (resp.status === 200) {
                     let status = resp.data.status;
                     if (resp.data.data != "" && typeof resp.data.data != "undefined") {
@@ -217,102 +217,112 @@ function SalaryGradeTabs() {
 
     // tsx
     return (
+        <>
+            {/* drawer */}
+            <Drawer width='w-96' setShowDrawer={setShowDrawer} setProcess={setProcess} showDrawer={showDrawer} setId={setId} title={`${process} ${title}`}>
 
-        // Tabs
-        <Tabs.Group
-            aria-label="Tabs with underline"
-            style="underline"
-        >
-            <Tabs.Item title="Salary Grade">
+                {/* formik */}
+                <Formik initialValues={initialValues} onSubmit={onFormSubmit} enableReinitialize={true}
+                >
 
+                    {({ errors, touched }) => (
 
-                {/* drawer */}
-                <Drawer setShowDrawer={setShowDrawer} setProcess={setProcess} showDrawer={showDrawer} setId={setId} title={`${process} ${title}`}>
-
-                    {/* formik */}
-                    <Formik initialValues={initialValues} onSubmit={onFormSubmit} enableReinitialize={true}
-                    >
-
-                        {({ errors, touched }) => (
-
-                            // forms
-                            <Form className='p-2' id="formik">
-                                <div className='alert-container' id="alert-container">
-                                    {alerts.map((item, index) => {
-                                        return (
-                                            <Alert className='my-1' color={item.type} key={index} onDismiss={() => { clearAlert(index) }} > <span> <p><span className="font-medium">{item.message}</span></p></span></Alert>
-                                        );
-                                    })}
-                                </div>
+                        // forms
+                        <Form className='p-2' id="formik">
+                            <div className='alert-container' id="alert-container">
+                                {alerts.map((item, index) => {
+                                    return (
+                                        <Alert className='my-1' color={item.type} key={index} onDismiss={() => { clearAlert(index) }} > <span> <p><span className="font-medium">{item.message}</span></p></span></Alert>
+                                    );
+                                })}
+                            </div>
 
 
-                                {/* number */}
-                                <FormElement
-                                    name="number"
-                                    label="Salary Grade Number"
-                                    errors={errors}
-                                    touched={touched}
-                                >
-                                    <Field
-                                        id="number"
-                                        name="number"
-                                        placeholder="Enter Number"
-                                        className="w-full p-4 pr-12 text-sm border border-gray-100 rounded-lg shadow-sm focus:border-sky-500"
-                                        onClick={() => { setAlerts([]); }}
-                                    />
-                                </FormElement>
+                            {/* number */}
+                            <FormElement
+                                name="office_code"
+                                label="Office Code"
+                                errors={errors}
+                                touched={touched}
+                            >
+                                <Field
+                                    id="office_code"
+                                    name="office_code"
+                                    placeholder="Enter Office Code"
+                                    className="w-full p-4 pr-12 text-sm border border-gray-100 rounded-lg shadow-sm focus:border-sky-500"
+                                    onClick={() => { setAlerts([]); }}
+                                />
+                            </FormElement>
 
 
-                                {/* Amount */}
-                                <FormElement
-                                    name="amount"
-                                    label="Salary Amount"
-                                    errors={errors}
-                                    touched={touched}
-                                >
+                            {/* Amount */}
+                            <FormElement
+                                name="office_name"
+                                label="Office Name"
+                                errors={errors}
+                                touched={touched}
+                            >
 
-                                    <Field
-                                        id="amount"
-                                        name="amount"
-                                        placeholder="Enter Amount"
-                                        className="w-full p-4 pr-12 text-sm border border-gray-100 rounded-lg shadow-sm focus:border-sky-500"
-                                    />
+                                <Field
+                                    id="office_name"
+                                    name="office_name"
+                                    placeholder="Enter Office Name"
+                                    className="w-full p-4 pr-12 text-sm border border-gray-100 rounded-lg shadow-sm focus:border-sky-500"
+                                />
 
-                                </FormElement>
+                            </FormElement>
 
 
-                                {/* submit button */}
+                            {/* submit button */}
 
-                                <div className="grid grid-flow-row auto-rows-max mt-5">
-                                    <button type="submit" className={`py-2 px-4   ${(process == "Delete" ? "bg-red-500" : "bg-cyan-500")}  text-white font-semibold rounded-lg focus:scale-90 shadow-sm mx-auto`} >
-                                        {(process == "Delete" ? "Delete" : "Submit")}
-                                    </button>
-                                </div>
-                            </Form>
-                        )}
-                    </Formik>
-                </Drawer>
+                            <div className="grid grid-flow-row auto-rows-max mt-5">
+                                <button type="submit" className={`py-2 px-4   ${(process == "Delete" ? "bg-red-500" : "bg-cyan-500")}  text-white font-semibold rounded-lg focus:scale-90 shadow-sm mx-auto`} >
+                                    {(process == "Delete" ? "Delete" : "Submit")}
+                                </button>
+                            </div>
+                        </Form>
+                    )}
+                </Formik>
+            </Drawer>
+            <div className={`${showDrawer ? "blur-[1px]" : ""}`}>
 
-                {/*Salary Grade Table*/}
-                <Table
-                    searchKeyword={searchKeyword}
-                    setSearchKeyword={setSearchKeyword}
-                    orderBy={orderBy}
-                    setOrderBy={setOrderBy}
-                    orderAscending={orderAscending}
-                    setOrderAscending={setOrderAscending}
-                    pagination={pagination}
-                    setpagination={setpagination}
-                    data={data}
-                    pages={pages}
-                    activePage={activePage}
-                    setActivePage={setActivePage}
-                    headers={headers}
-                    getDataById={getDataById}
-                    setProcess={setProcess}
-                />
-            </Tabs.Item>
-        </Tabs.Group >
+                {/*  Tabs */}
+                <Tabs.Group
+                    aria-label="Tabs with underline"
+                    style="underline"
+                >
+                    <Tabs.Item title={title + "s"}>
+
+                        <Button className='btn btn-sm text-white rounded-lg bg-cyan-500  hover:scale-90 shadow-sm text' onClick={() => {
+                            setShowDrawer(true);
+                            setId(0);
+                            setProcess("Add");
+                        }} onDoubleClick={() => { setShowDrawer(false); }}>Add {title}
+                        </Button>
+
+
+                        {/*Table*/}
+                        <Table
+                            searchKeyword={searchKeyword}
+                            setSearchKeyword={setSearchKeyword}
+                            orderBy={orderBy}
+                            setOrderBy={setOrderBy}
+                            orderAscending={orderAscending}
+                            setOrderAscending={setOrderAscending}
+                            pagination={pagination}
+                            setpagination={setpagination}
+                            data={data}
+                            pages={pages}
+                            activePage={activePage}
+                            setActivePage={setActivePage}
+                            headers={headers}
+                            getDataById={getDataById}
+                            setProcess={setProcess}
+                        />
+                    </Tabs.Item>
+                </Tabs.Group >
+            </div>
+        </>
     );
 }
 

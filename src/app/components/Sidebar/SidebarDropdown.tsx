@@ -54,7 +54,7 @@ function SidebarDropdown(parameter: Props) {
 
                 </button>
                 {isOpen && (
-                    <ul className={`dropdown-menu  ${parameter.isMinimized ? 'rounded-lg bg-white w-56 p-2 border border-1 shadow-sm' : ''}`} >
+                    <ul className={`dropdown-menu  ${parameter.isMinimized ? 'rounded-lg bg-white w-56 p-1 border border-1 shadow-sm text-xs' : ''}`} >
                         {parameter.children}
                     </ul>
                 )}
