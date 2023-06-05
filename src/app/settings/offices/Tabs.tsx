@@ -27,6 +27,15 @@ type alert = {
 interface IValues {
     office_code?: string;
     office_name?: string;
+    department_id?: string;
+}
+
+type department = {
+    id: string;
+    attributes: {
+        department_name: string;
+        department_code: string;
+    }
 }
 
 
@@ -45,10 +54,12 @@ function SalaryGradeTabs() {
     const [orderAscending, setOrderAscending] = useState<boolean>(false);
     const [pagination, setpagination] = useState<number>(1);
     const [process, setProcess] = useState<string>("Add");
+    const [departments, setDepartments] = useState<department[]>([]);
     const [headers, setHeaders] = useState<string[]>([
         "id",
         "office_code",
-        "office_name"
+        "office_name",
+        "department"
     ]);
     const [pages, setPages] = useState<number>(1);
     const [data, setData] = useState<row[]>([]);
@@ -58,7 +69,8 @@ function SalaryGradeTabs() {
     var [initialValues, setInitialValues] = useState<IValues>(
         {
             office_code: "",
-            office_name: ""
+            office_name: "",
+            department_id: ""
         }
     );
 
@@ -85,10 +97,24 @@ function SalaryGradeTabs() {
     }, [refresh, searchKeyword, orderBy, orderAscending, pagination, activePage]);
 
     useEffect(() => {
+        // get departments
+        async function getDepartments() {
+            const resp = await HttpService.get("department");
+            if (resp != null) {
+                setDepartments(resp.data.data);
+            }
+        }
+
+
+        getDepartments();
+    }, []);
+
+    useEffect(() => {
         if (id == 0) {
             setInitialValues({
                 office_code: '',
-                office_name: ''
+                office_name: '',
+                department_id: ''
             });
         }
 
@@ -99,7 +125,7 @@ function SalaryGradeTabs() {
             setAlerts([{ "type": "failure", "message": "Are you sure to delete this data?" }])
         }
         else {
-            setAlerts([]);
+            // setAlerts([]);
         }
     }, [process]);
 
@@ -114,7 +140,8 @@ function SalaryGradeTabs() {
                 setId(id);
                 setInitialValues({
                     office_code: resp.data.office_code,
-                    office_name: resp.data.office_name
+                    office_name: resp.data.office_name,
+                    department_id: resp.data.department_id
                 })
                 setShowDrawer(true);
 
@@ -140,8 +167,9 @@ function SalaryGradeTabs() {
         { setSubmitting, resetForm, setFieldError }: FormikHelpers<IValues>
     ) => {
         const postData = {
-            office_name: values.office_code,
-            office_code: values.office_name,
+            office_code: values.office_code,
+            office_name: values.office_name,
+            department_id: values.department_id,
             device_name: "web",
         };
 
@@ -187,11 +215,11 @@ function SalaryGradeTabs() {
             }
             // delete
             else {
-                const resp = await HttpService.delete("salary-grade/" + id);
+                const resp = await HttpService.delete("office/" + id);
                 if (resp.status === 200) {
                     let status = resp.data.status;
                     if (status === "Request was Successful") {
-                        alerts.push({ "type": "success", "message": resp.data.messsage });
+                        alerts.push({ "type": "success", "message": resp.data.message });
                         setActivePage(1);
                         setRefresh(!refresh);
                         setId(0);
@@ -238,7 +266,7 @@ function SalaryGradeTabs() {
                             </div>
 
 
-                            {/* number */}
+                            {/* Code */}
                             <FormElement
                                 name="office_code"
                                 label="Office Code"
@@ -255,7 +283,7 @@ function SalaryGradeTabs() {
                             </FormElement>
 
 
-                            {/* Amount */}
+                            {/* Office Name */}
                             <FormElement
                                 name="office_name"
                                 label="Office Name"
@@ -269,6 +297,33 @@ function SalaryGradeTabs() {
                                     placeholder="Enter Office Name"
                                     className="w-full p-4 pr-12 text-sm border border-gray-100 rounded-lg shadow-sm focus:border-sky-500"
                                 />
+
+                            </FormElement>
+
+                            {/* Department */}
+                            <FormElement
+                                name="department_id"
+                                label="Department"
+                                errors={errors}
+                                touched={touched}
+                            >
+
+                                <Field as="select"
+                                    id="department_id"
+                                    name="department_id"
+                                    placeholder="Enter Office Name"
+                                    className="w-full p-4 pr-12 text-sm border border-gray-100 rounded-lg shadow-sm focus:border-sky-500"
+                                    title="Select Department"
+                                >
+                                    <option value=""></option>
+                                    {departments.map((item: department, index) => {
+                                        return (
+                                            <option key={index} value={item.id}>{item.attributes.department_name}</option>
+                                        );
+                                    })}
+
+
+                                </Field>
 
                             </FormElement>
 
@@ -291,7 +346,7 @@ function SalaryGradeTabs() {
                     aria-label="Tabs with underline"
                     style="underline"
                 >
-                    <Tabs.Item title={title + "s"}>
+                    <Tabs.Item className=' overflow-x-auto' title={title + "s"}>
 
                         <Button className='btn btn-sm text-white rounded-lg bg-cyan-500  hover:scale-90 shadow-sm text' onClick={() => {
                             setShowDrawer(true);
