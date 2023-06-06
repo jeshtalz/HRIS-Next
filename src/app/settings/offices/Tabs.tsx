@@ -142,8 +142,9 @@ function SalaryGradeTabs() {
                     office_code: resp.data.office_code,
                     office_name: resp.data.office_name,
                     department_id: resp.data.department_id
-                })
+                });
                 setShowDrawer(true);
+                console.log(resp.data);
 
             }
         }
@@ -191,7 +192,7 @@ function SalaryGradeTabs() {
                     }
                     else {
                         if (typeof resp.data != "undefined") {
-                            alerts.push({ "type": "failure", "message": "An error occured! - " + resp.data.message });
+                            alerts.push({ "type": "failure", "message": resp.data.message });
                         }
                     }
                 }
@@ -208,7 +209,7 @@ function SalaryGradeTabs() {
                     }
                     else {
                         if (typeof resp.data != "undefined") {
-                            alerts.push({ "type": "failure", "message": "An error occured! - " + resp.data.message });
+                            alerts.push({ "type": "failure", "message": resp.data.message });
                         }
                     }
                 }
@@ -227,7 +228,7 @@ function SalaryGradeTabs() {
                     }
                     else {
                         if (typeof resp.data != "undefined") {
-                            alerts.push({ "type": "failure", "message": "An error occured! - " + resp.data.message });
+                            alerts.push({ "type": "failure", "message": resp.data.message });
                         }
                     }
                 }
@@ -352,7 +353,7 @@ function SalaryGradeTabs() {
                             setShowDrawer(true);
                             setId(0);
                             setProcess("Add");
-                        }} onDoubleClick={() => { setShowDrawer(false); }}>Add {title}
+                        }} onDoubleClick={() => {setShowDrawer(false); }}>Add {title}
                         </Button>
 
 

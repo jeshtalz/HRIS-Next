@@ -163,7 +163,7 @@ function SalaryGradeTabs() {
                     }
                     else {
                         if (typeof resp.data != "undefined") {
-                            alerts.push({ "type": "failure", "message": "An error occured! - " + resp.data.message });
+                            alerts.push({ "type": "failure", "message":  resp.data.message });
                         }
                     }
                 }
@@ -180,7 +180,7 @@ function SalaryGradeTabs() {
                     }
                     else {
                         if (typeof resp.data != "undefined") {
-                            alerts.push({ "type": "failure", "message": "An error occured! - " + resp.data.message });
+                            alerts.push({ "type": "failure", "message":  resp.data.message });
                         }
                     }
                 }
@@ -199,7 +199,7 @@ function SalaryGradeTabs() {
                     }
                     else {
                         if (typeof resp.data != "undefined") {
-                            alerts.push({ "type": "failure", "message": "An error occured! - " + resp.data.message });
+                            alerts.push({ "type": "failure", "message":  resp.data.message });
                         }
                     }
                 }
