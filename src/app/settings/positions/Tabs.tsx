@@ -227,7 +227,7 @@ function SalaryGradeTabs() {
             }
             // update
             else if (process == "Edit") {
-                const resp = await HttpService.patch("office/" + id, postData)
+                const resp = await HttpService.patch("position/" + id, postData)
                 if (resp.status === 200) {
                     let status = resp.data.status;
                     if (resp.data.data != "" && typeof resp.data.data != "undefined") {
@@ -244,7 +244,7 @@ function SalaryGradeTabs() {
             }
             // delete
             else {
-                const resp = await HttpService.delete("office/" + id);
+                const resp = await HttpService.delete("position/" + id);
                 if (resp.status === 200) {
                     let status = resp.data.status;
                     if (status === "Request was Successful") {
